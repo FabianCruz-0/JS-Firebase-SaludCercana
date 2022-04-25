@@ -1,0 +1,43 @@
+nav{
+    background-color: #B59FFF;
+}
+.searchBtn{
+ background-color: #6915c9;
+ color: white;
+ filter: drop-shadow(0px 0px 2px #535353);
+}
+.hero{
+    margin: 2vw 0 2vw 0;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-direction: column;
+    
+}
+.heroImg{
+    background-image: url('/style/imgs/hero-image.jpg');
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    transition: transform 2s;
+    height: 100%;
+    width: 100%;
+}
+
+.heroImg:hover{
+    transform: scale(1.5);
+}
+
+.title{
+color: white;
+filter: drop-shadow(0px 0px 5px #ffffff);
+font-weight: bold;
+font-size: 50px;
+position: absolute;
+}
+
+.separator{
+border-top: 2px #6915c9 solid;
+}

@@ -1,2 +1,2 @@
-# PHP-MySQL-SaludCercana
-PHP project.
+# JS-Firebase-SaludCercana
+Firebase project.
