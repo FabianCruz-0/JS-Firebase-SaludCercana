@@ -1,11 +1,17 @@
 nav{
     background-color: #B59FFF;
 }
+
+.nav-link{
+color: black;
+}
+
 .searchBtn{
  background-color: #6915c9;
  color: white;
  filter: drop-shadow(0px 0px 2px #535353);
 }
+
 .hero{
     margin: 2vw 0 2vw 0;
     height: 200px;
@@ -16,6 +22,7 @@ nav{
     flex-direction: column;
     
 }
+
 .heroImg{
     background-image: url('/style/imgs/hero-image.jpg');
     background-size: cover;
@@ -27,7 +34,7 @@ nav{
 }
 
 .heroImg:hover{
-    transform: scale(1.5);
+    transform: scale(1.2);
 }
 
 .title{
@@ -40,4 +47,45 @@ position: absolute;
 
 .separator{
 border-top: 2px #6915c9 solid;
+}
+
+.cardContainer{
+    padding:30px;
+}
+
+.card{
+border:1px #535353 solid;
+border-radius: 2px;
+filter: drop-shadow(-2px 2px 2px #505050);
+height: 300px;
+transition: transform 1s;
+}
+
+.card:hover{
+transform: scale(1.02);
+}
+
+.cardLink{
+color: black;
+text-decoration: none;
+}
+.cardLink:hover{
+    color: black;
+text-decoration: none;
+}
+
+.imgServicio{
+    background-image: url('/style/imgs/dermatologo.jpg');
+background-size: cover;
+background-position: 50%;
+height: 40%;
+border-bottom: 1px black solid;
+}
+.tituloServicio{
+    margin: 10px 0px 10px 0px;
+}
+
+.infoServicio{
+    text-align: justify;
+    padding: 20px;
 }
