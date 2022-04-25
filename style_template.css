@@ -1,0 +1,31 @@
+html,body{
+    min-height: 100vh;
+}
+
+nav{
+    background: linear-gradient(0deg, rgba(181,159,255,1) 0%, rgba(154,133,223,1) 100%);
+}
+
+.nav-link{
+color: black;
+}
+
+.nav-link:hover{
+    color: black;
+    text-decoration: underline;
+    }
+
+.searchBtn{
+ background-color: #6915c9;
+ color: white;
+ filter: drop-shadow(0px 0px 2px #535353);
+}
+.searchBtn:hover{
+    color: white;
+}
+
+.footer{
+    background-color: #d0c7ff;
+    color: black;
+    font-size: 12px;
+}
