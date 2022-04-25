@@ -1,3 +1,7 @@
+html,body{
+    min-height: 100vh;
+}
+
 nav{
     background-color: #B59FFF;
 }
@@ -5,6 +9,10 @@ nav{
 .nav-link{
 color: black;
 }
+.nav-link:hover{
+    color: black;
+    text-decoration: underline;
+    }
 
 .searchBtn{
  background-color: #6915c9;
@@ -88,4 +96,10 @@ border-bottom: 1px black solid;
 .infoServicio{
     text-align: justify;
     padding: 20px;
+}
+
+.footer{
+    background-color: #d0c7ff;
+    color: black;
+    font-size: 12px;
 }
