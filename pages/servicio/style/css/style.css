@@ -1,0 +1,33 @@
+.heroService {
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/saludcercana-a0cc7.appspot.com/o/dermatologo_hq.jpg?alt=media&token=e3874a4c-cf7b-4284-9af3-9d73232cd938');
+    width: 100%;
+    height: 50vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-bottom: 5vh;
+    background-position: 50%;
+}
+
+.userInfoHeader{
+    margin: 0px 0px 10px 0px;
+}
+
+.userImg{
+    display: block;
+    margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
+  border: 1px #505050 solid;
+}
+
+.userInfoData{
+border-bottom: 1px rgb(106, 68, 194) solid;
+display: block;
+margin-top: auto;
+margin-bottom: auto;
+}
+.googleMaps{
+    display: block;
+    margin-left: auto;
+  margin-right: auto;
+}
