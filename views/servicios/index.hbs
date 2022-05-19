@@ -10,6 +10,13 @@
         <div class="text-center fw-bold mt-4">
             Estos son nuestros resultados a tu busqueda:
         </div>
+        <ul>
+            <li>Tipo de Servicio Médico:{{data.TipoServicio}}</li>
+            <li>Colonia:{{data.colonia}}</li>
+            <li>Código Postal:{{data.postal}}</li>
+            <li>Municipio:{{data.municipio}}</li>
+            <li>Estado:{{data.Estado}}</li>
+        </ul>
         <br><br>
         <div class="servicios" id="servicios">
             <div class="row" id="0">
@@ -23,6 +30,7 @@
                         <div class="card">
                             <div class="tituloServicio text-center fw-bold">{{this.TipoServicio}}</div>
                             <div class="tituloServicio text-center fw-bold">{{this.userName}}</div>
+                            <div class="tituloServicio text-center">{{this.userTel}}.</div>
                             <div class="infoServicio">{{this.Descripcion}}</div>
                         </div>
                     </a>
