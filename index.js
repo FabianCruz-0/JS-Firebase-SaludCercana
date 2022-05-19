@@ -3,7 +3,7 @@ const path = require("path");
 const exhbs = require("express-handlebars")
 const fileURLToPath = require("url");
 const { initializeApp } = require("firebase/app");
-const { getFirestore, collection, getDocs, orderBy, doc, addDoc } = require('firebase/firestore');
+const { getFirestore, collection, getDocs, orderBy,where, doc, addDoc, getDoc,query } = require('firebase/firestore');
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require("firebase/auth");
 const bodyParser = require('body-parser');
 
@@ -64,14 +64,12 @@ async function getTypesServices(db) {
     return typesServices;
 }
 
-function getOut(user){
-if(user != null )
-{
-    return true
-} else 
-{
-    return false
-}
+function getOut(user) {
+    if (user != null) {
+        return true
+    } else {
+        return false
+    }
 }
 
 app.get('/', async (req, res) => {
@@ -81,9 +79,21 @@ app.get('/', async (req, res) => {
     res.render('index', { servicios: servicios, session: user })
 })
 
-app.get('/servicio', async (req, res) => {
+app.get('/servicio/:servicioId', async (req, res) => {
     var user = await getUser();
-    res.render('servicio/index', { session: user });
+    const servicioId = req.params.servicioId;
+
+    const docRef = doc(db, "Servicios", servicioId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        //   console.log("Document data:", docSnap.data());
+        const documento = docSnap.data();
+        const ubiMaps = documento.Calle + "%20" + documento.Numero + ",%20" + documento.Colonia + ",%20" + documento.Municipio + ",%20" + documento.Estado;
+        res.render('servicio/index', { session: user, ubicacion: ubiMaps, documento: documento });
+    } else {
+        console.log("No such document!");
+    }
+
 })
 
 app.get('/servicios', async (req, res) => {
@@ -93,7 +103,7 @@ app.get('/servicios', async (req, res) => {
 
 app.get('/agregarServicio', async (req, res) => {
     var user = await getUser();
-    if(getOut(user)) {
+    if (getOut(user)) {
         const typesServices = await getTypesServices(db);
         res.render('agregarServicio/index', { session: user, typesServices: typesServices });
     } else {
@@ -104,19 +114,36 @@ app.get('/agregarServicio', async (req, res) => {
 app.post('/agregarServicio', async (req, res) => {
     var user = await getUser();
 
-    if(getOut(user)) {
+    if (getOut(user)) {
+
+        var nombreUsuario =""
+        var telefonoUsuario =""
+        
+        const docRef = doc(db, "Usuarios", req.body.userEmail);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        const documento = docSnap.data();
+        nombreUsuario = documento.Nombre;
+        telefonoUsuario = documento.Telefono;
+    } else {
+        console.log("No such document!");
+    }
+
         await addDoc(collection(db, "Servicios"), {
             userEmail: req.body.userEmail,
+            userName: nombreUsuario,
+            userTel: telefonoUsuario,
             TipoServicio: req.body.TipoServicio,
             Calle: req.body.calle,
             Numero: req.body.numero,
             Colonia: req.body.colonia,
+            Postal: req.body.postal,
             Municipio: req.body.municipio,
             Estado: req.body.estado,
             Horario: req.body.horario,
             Descripcion: req.body.descripcion
         });
-    
+
         res.redirect('/');
     } else {
         res.redirect('/')
@@ -135,7 +162,7 @@ app.get('/contacto', async (req, res) => {
 
 app.get('/login', async (req, res) => {
     var user = await getUser();
-    if(getOut(user)) {
+    if (getOut(user)) {
         res.redirect('/')
     } else {
         res.render('login/index', { session: user });
@@ -143,13 +170,13 @@ app.get('/login', async (req, res) => {
 })
 
 app.post('/login', async (req, res) => {
-
-    if(getOut(user)) {
+    var user = await getUser();
+    if (getOut(user)) {
         res.redirect('/')
     } else {
         const user = req.body.user
         const pass = req.body.pass
-    
+
         signInWithEmailAndPassword(auth, user, pass)
             .then((userCredential) => {
                 res.redirect('/')
@@ -164,7 +191,7 @@ app.post('/login', async (req, res) => {
 app.get('/perfil', async (req, res) => {
     var user = await getUser();
 
-    if(getOut(user)) {
+    if (getOut(user)) {
         res.render('perfil/index', { session: user });
     } else {
         res.redirect('/')
@@ -179,7 +206,7 @@ app.get('/signout', async (req, res) => {
 
 app.get('/signin', async (req, res) => {
     var user = await getUser();
-    if(getOut(user)) {
+    if (getOut(user)) {
         res.redirect('/')
     } else {
         res.render('signin/index', { session: user });
@@ -188,23 +215,23 @@ app.get('/signin', async (req, res) => {
 
 app.post('/signin', async (req, res) => {
     var user = await getUser();
-    if(getOut(user)) {
+    if (getOut(user)) {
         res.redirect('/')
     } else {
         const name = req.body.name
         const tel = req.body.tel
         const correo = req.body.correo
         const pass = req.body.pass
-    
+
         await createUserWithEmailAndPassword(auth, correo, pass)
-            .then (async(userCredential) => {
-                
+            .then(async (userCredential) => {
+
                 await addDoc(collection(db, "Usuarios"), {
                     Nombre: req.body.name,
                     Telefono: req.body.tel,
                     Correo: req.body.correo,
                     Contrasena: req.body.pass
-                });        
+                });
 
                 res.redirect('/');
             })
