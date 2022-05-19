@@ -3,7 +3,7 @@ const path = require("path");
 const exhbs = require("express-handlebars")
 const fileURLToPath = require("url");
 const { initializeApp } = require("firebase/app");
-const { getFirestore, collection, getDocs, orderBy,where, doc, addDoc, getDoc,query } = require('firebase/firestore');
+const { getFirestore, collection, getDocs, where, doc, addDoc, getDoc,query, updateDoc } = require('firebase/firestore');
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require("firebase/auth");
 const bodyParser = require('body-parser');
 
@@ -75,8 +75,9 @@ function getOut(user) {
 app.get('/', async (req, res) => {
     const servicios = await getServices(db);
     var user = await getUser();
+    const typesServices = await getTypesServices(db);
 
-    res.render('index', { servicios: servicios, session: user })
+    res.render('index', { servicios: servicios, session: user, typesServices: typesServices })
 })
 
 app.get('/servicio/:servicioId', async (req, res) => {
@@ -96,9 +97,235 @@ app.get('/servicio/:servicioId', async (req, res) => {
 
 })
 
-app.get('/servicios', async (req, res) => {
+app.post('/servicios', async (req, res) => {
     var user = await getUser();
-    res.render('servicios/index', { session: user });
+
+    const data = req.body
+    const TipoServicio = data.TipoServicio
+    const Colonia = data.colonia
+    const Postal = data.postal
+    const Municipio = data.municipio
+    const Estado = data.estado
+
+    if(Colonia!='' && Postal != '' && Municipio!='' && Estado != '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio),
+            where("Colonia","==",Colonia),
+            where("Postal","==",Postal),
+            where("Municipio","==",Municipio),
+            where("Estado","==",Estado));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    } else if (Colonia=='' && Postal != '' && Municipio!='' && Estado != '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio),
+            where("Postal","==",Postal),
+            where("Municipio","==",Municipio),
+            where("Estado","==",Estado));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    } else if(Colonia!='' && Postal == '' && Municipio!='' && Estado != '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio),
+            where("Colonia","==",Colonia),
+            where("Municipio","==",Municipio),
+            where("Estado","==",Estado));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    }else if(Colonia!='' && Postal != '' && Municipio =='' && Estado != '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio),
+            where("Postal","==",Postal),
+            where("Colonia","==",Colonia),
+            where("Estado","==",Estado));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    } else if(Colonia!='' && Postal != '' && Municipio !='' && Estado == '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio),
+            where("Postal","==",Postal),
+            where("Colonia","==",Colonia),
+            where("Municipio","==",Municipio));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    } else if(Colonia=='' && Postal == '' && Municipio !='' && Estado != '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio),
+            where("Estado","==",Estado),
+            where("Municipio","==",Municipio));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    }
+    else if(Colonia=='' && Postal != '' && Municipio =='' && Estado!= '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio),
+            where("Postal","==",Postal),
+            where("Estado","==",Estado));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    }
+    else if(Colonia=='' && Postal!= '' && Municipio !='' && Estado == '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio),
+            where("Postal","==",Postal),
+            where("Municipio","==",Municipio));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    }
+    else if(Colonia!='' && Postal == '' && Municipio =='' && Estado != '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio),
+            where("Colonia","==",Colonia),
+            where("Estado","==",Estado));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    } else if(Colonia!='' && Postal == '' && Municipio !='' && Estado == '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio),
+            where("Colonia","==",Colonia),
+            where("Municipio","==",Municipio));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    }
+    else if(Colonia!='' && Postal != '' && Municipio =='' && Estado == '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio),
+            where("Postal","==",Postal),
+            where("Colonia","==",Colonia));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    }
+    else if(Colonia!='' && Postal == '' && Municipio =='' && Estado == '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio),
+            where("Colonia","==",Colonia));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    }
+    else if(Colonia=='' && Postal != '' && Municipio =='' && Estado == '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio),
+            where("Postal","==",Postal));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    }
+    else if(Colonia=='' && Postal == '' && Municipio !='' && Estado == '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio),
+            where("Municipio","==",Municipio));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    }
+    else if(Colonia!='' && Postal != '' && Municipio !='' && Estado == '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio),
+            where("Estado","==",Estado));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    }
+    else if(Colonia=='' && Postal == '' && Municipio =='' && Estado == '')
+    {
+        async function getServices(db) {
+            const servicesCol = query(collection(db, 'Servicios'),
+            where("TipoServicio","==",TipoServicio));
+            const servicesSnapshot = await getDocs(servicesCol);
+            const services = servicesSnapshot.docs.map(doc => doc.data());
+            return services;
+        }
+        const servicios = await getServices(db);
+        res.render('servicios/index', { session: user,servicios: servicios });
+    }
+    
 })
 
 app.get('/agregarServicio', async (req, res) => {
@@ -129,7 +356,7 @@ app.post('/agregarServicio', async (req, res) => {
         console.log("No such document!");
     }
 
-        await addDoc(collection(db, "Servicios"), {
+        const id = await addDoc(collection(db, "Servicios"), {
             userEmail: req.body.userEmail,
             userName: nombreUsuario,
             userTel: telefonoUsuario,
@@ -142,7 +369,11 @@ app.post('/agregarServicio', async (req, res) => {
             Estado: req.body.estado,
             Horario: req.body.horario,
             Descripcion: req.body.descripcion
-        });
+        }).then( async function(docRef) {
+            await updateDoc(doc(db,"Servicios",docRef.id), {
+                ID:docRef.id
+            });
+        })
 
         res.redirect('/');
     } else {

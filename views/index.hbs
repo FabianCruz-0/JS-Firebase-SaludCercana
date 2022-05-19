@@ -10,32 +10,40 @@
         <div class="text-center fw-bold mt-4">
             ¡Hola! Busca nuestros servicios:
         </div>
-
-        <div class="servicios" id="servicios">
-            <div class="row" id="0">
+        <br><br>
+        <form action="servicios" method="post">
+            <div class="input-group input-group-md">
+                <span class="input-group-text">Tipo Servicio</span>
+                <select class="form-select" aria-label="Default select example" name="TipoServicio" required>
+                    {{#each typesServices}}
+                    <option value="{{this.TipoServicio}}">{{this.TipoServicio}}</option>
+                    {{/each}}
+                </select>
             </div>
-            {{#each servicios}}
-            <script>
-                var row = document.getElementById('0')
-                row.innerHTML += /*html*/`
-                <div class="col-md-4 cardContainer">
-                    <a href="" class="cardLink">
-                        <div class="card">
-                            <div class="imgServicio"></div>
-                            <div class="tituloServicio text-center fw-bold">DERMATÓLOGOS</div>
-                            <div class="infoServicio">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                Reprehenderit
-                                delectus iste doloribus eos! Pariatur laboriosam iste aspernatur!</div>
-                        </div>
-                    </a>
-                </div>
-                `
-            </script>
-            {{/each}}
-        </div>
+            <br>
+            <div class="input-group">
+                <span class="input-group-text">Colonia</span>
+                <input type="text" aria-label="Colonia" class="form-control" name="colonia" placeholder="La Rioja...">
+                <span class="input-group-text">Código Postal</span>
+                <input type="text" aria-label="Código Postal" class="form-control" name="postal" placeholder="12383...">
+            </div> <br>
+            <div class="input-group">
+                <span class="input-group-text">Municipio</span>
+                <input type="text" aria-label="Municipio" class="form-control" name="municipio"
+                    placeholder="Guadalupe...">
+                <span class="input-group-text">Estado</span>
+                <input type="text" aria-label="Estado" class="form-control" name="estado" placeholder="Nuevo León...">
+            </div>
+            <br>
+            <center><button type="submit" class="btn btn-primary">Buscar</button></center>
+        </form>
+        <br><br><br>
     </div>
 </body>
 <style>
+    body{
+        min-height: 100vh;
+    }
     .hero {
         margin: 2vw 0 2vw 0;
         height: 200px;
