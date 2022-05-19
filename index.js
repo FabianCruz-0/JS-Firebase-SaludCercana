@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require("path");
 const exhbs = require("express-handlebars")
-const fileURLToPath = require("url");
 const { initializeApp } = require("firebase/app");
 const { getFirestore, collection, getDocs, where, doc, addDoc, getDoc, query, updateDoc, setDoc } = require('firebase/firestore');
 const { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } = require("firebase/auth");
@@ -23,7 +22,6 @@ const db = getFirestore(firebaseApp);
 const auth = getAuth();
 
 const app = express()
-
 
 app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname, 'views'))
@@ -121,7 +119,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     } else if (Colonia == '' && Postal != '' && Municipio != '' && Estado != '') {
         async function getServices(db) {
             const servicesCol = query(collection(db, 'Servicios'),
@@ -134,7 +132,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     } else if (Colonia != '' && Postal == '' && Municipio != '' && Estado != '') {
         async function getServices(db) {
             const servicesCol = query(collection(db, 'Servicios'),
@@ -147,7 +145,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     } else if (Colonia != '' && Postal != '' && Municipio == '' && Estado != '') {
         async function getServices(db) {
             const servicesCol = query(collection(db, 'Servicios'),
@@ -160,7 +158,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     } else if (Colonia != '' && Postal != '' && Municipio != '' && Estado == '') {
         async function getServices(db) {
             const servicesCol = query(collection(db, 'Servicios'),
@@ -173,7 +171,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     } else if (Colonia == '' && Postal == '' && Municipio != '' && Estado != '') {
         async function getServices(db) {
             const servicesCol = query(collection(db, 'Servicios'),
@@ -185,7 +183,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     }
     else if (Colonia == '' && Postal != '' && Municipio == '' && Estado != '') {
         async function getServices(db) {
@@ -198,7 +196,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     }
     else if (Colonia == '' && Postal != '' && Municipio != '' && Estado == '') {
         async function getServices(db) {
@@ -211,7 +209,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     }
     else if (Colonia != '' && Postal == '' && Municipio == '' && Estado != '') {
         async function getServices(db) {
@@ -224,7 +222,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     } else if (Colonia != '' && Postal == '' && Municipio != '' && Estado == '') {
         async function getServices(db) {
             const servicesCol = query(collection(db, 'Servicios'),
@@ -236,7 +234,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     }
     else if (Colonia != '' && Postal != '' && Municipio == '' && Estado == '') {
         async function getServices(db) {
@@ -249,7 +247,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     }
     else if (Colonia != '' && Postal == '' && Municipio == '' && Estado == '') {
         async function getServices(db) {
@@ -261,7 +259,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     }
     else if (Colonia == '' && Postal != '' && Municipio == '' && Estado == '') {
         async function getServices(db) {
@@ -273,7 +271,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     }
     else if (Colonia == '' && Postal == '' && Municipio != '' && Estado == '') {
         async function getServices(db) {
@@ -285,7 +283,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     }
     else if (Colonia != '' && Postal != '' && Municipio != '' && Estado == '') {
         async function getServices(db) {
@@ -297,7 +295,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     }
     else if (Colonia == '' && Postal == '' && Municipio == '' && Estado == '') {
         async function getServices(db) {
@@ -308,7 +306,7 @@ app.post('/servicios', async (req, res) => {
             return services;
         }
         const servicios = await getServices(db);
-        res.render('servicios/index', { session: user, servicios: servicios,data:data });
+        res.render('servicios/index', { session: user, servicios: servicios, data: data });
     }
 
 })
@@ -449,7 +447,7 @@ app.post('/signin', async (req, res) => {
         await createUserWithEmailAndPassword(auth, correo, pass)
             .then(async (userCredential) => {
                 alert('Se registró con éxito.')
-                await setDoc(doc(db, "Usuarios",correo), {
+                await setDoc(doc(db, "Usuarios", correo), {
                     Nombre: req.body.name,
                     Telefono: req.body.tel,
                     Correo: req.body.correo,
