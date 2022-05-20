@@ -63,6 +63,13 @@ async function getTypesServices(db) {
     return typesServices;
 }
 
+async function getComentarios(db, servicioId) {
+    const commentsCol = collection(db, 'Comentarios');
+    const commentsSnapshot = await getDocs(commentsCol, where('idServicio', '==', servicioId));
+    const comments = commentsSnapshot.docs.map(doc => doc.data());
+    return comments;
+}
+
 function getOut(user) {
     if (user != null) {
         return true
@@ -89,9 +96,13 @@ app.get('/servicio/:servicioId', async (req, res) => {
         //   console.log("Document data:", docSnap.data());
         const documento = docSnap.data();
         const ubiMaps = documento.Calle + "%20" + documento.Numero + ",%20" + documento.Colonia + ",%20" + documento.Municipio + ",%20" + documento.Estado;
-        res.render('servicio/index', { session: user, ubicacion: ubiMaps, documento: documento });
+
+        const comentarios = await getComentarios(db, servicioId);
+
+        res.render('servicio/index', { session: user, ubicacion: ubiMaps, documento: documento, comentarios: comentarios });
     } else {
-        console.log("No such document!");
+        alert('No existe ese servicio')
+        res.redirect('/');
     }
 
 })
@@ -465,6 +476,16 @@ app.post('/signin', async (req, res) => {
                 res.redirect('/signin');
             })
     }
+})
+
+app.post('/servicio/review', async (req, res) => {
+    await addDoc(collection(db, "Comentarios"), {
+        Nombre: req.body.nombre,
+        Comentario: req.body.comentario,
+        idServicio: req.body.idServicio,
+    }).then(function () {
+        res.redirect('/servicio/' + req.body.idServicio)
+    })
 })
 
 app.listen(app.get('port'), () => {
