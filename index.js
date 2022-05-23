@@ -64,8 +64,8 @@ async function getTypesServices(db) {
 }
 
 async function getComentarios(db, servicioId) {
-    const commentsCol = collection(db, 'Comentarios');
-    const commentsSnapshot = await getDocs(commentsCol, where('idServicio', '==', servicioId));
+    const commentsCol = query(collection(db, 'Comentarios'), where('idServicio', '==', servicioId));
+    const commentsSnapshot = await getDocs(commentsCol);
     const comments = commentsSnapshot.docs.map(doc => doc.data());
     return comments;
 }
@@ -93,12 +93,10 @@ app.get('/servicio/:servicioId', async (req, res) => {
     const docRef = doc(db, "Servicios", servicioId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-        //   console.log("Document data:", docSnap.data());
         const documento = docSnap.data();
         const ubiMaps = documento.Calle + "%20" + documento.Numero + ",%20" + documento.Colonia + ",%20" + documento.Municipio + ",%20" + documento.Estado;
 
         const comentarios = await getComentarios(db, servicioId);
-
         res.render('servicio/index', { session: user, ubicacion: ubiMaps, documento: documento, comentarios: comentarios });
     } else {
         alert('No existe ese servicio')
